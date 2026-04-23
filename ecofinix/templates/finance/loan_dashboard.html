@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Loan Advisor</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg,#eef2f7,#f9fbfd);
+        }
+
+        .card {
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            border: none;
+        }
+
+        .metric {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .approved { color: #198754; }
+        .rejected { color: #dc3545; }
+
+        .risk-low { color: green; }
+        .risk-medium { color: orange; }
+        .risk-high { color: red; }
+
+        .badge-soft {
+            background: #f1f3f6;
+            padding: 6px 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-4">
+
+    <h2 class="mb-4">🏦 Smart Loan Advisor Dashboard</h2>
+
+    <!-- FORM CARD -->
+    <div class="card p-4 mb-4">
+        <h5>Enter Loan Details</h5>
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                {% for field in form %}
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-primary">Analyze Loan</button>
+        </form>
+    </div>
+
+    {% if result %}
+
+    <!-- METRICS -->
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                <div>Approval Chance</div>
+                <div class="metric">{{ result.approval_percent }}%</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                <div>Risk Level</div>
+                <div class="metric risk-{{ result.risk_level|lower }}">
+                    {{ result.risk_level }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                <div>Status</div>
+                <div class="metric {% if result.approved %}approved{% else %}rejected{% endif %}">
+                    {% if result.approved %}✅ Approved{% else %}❌ Rejected{% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- REASONS -->
+    <div class="card p-3 mt-4">
+        <h5>🔍 Key Risk Drivers</h5>
+        {% if result.reasons %}
+            <ul>
+                {% for r in result.reasons %}
+                <li>{{ r }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <span class="badge-soft">No major risk factors</span>
+        {% endif %}
+    </div>
+
+    <!-- SUGGESTIONS -->
+    <div class="card p-3 mt-4">
+        <h5>💡 Improvement Tips</h5>
+        {% if result.suggestions %}
+            <ul>
+                {% for s in result.suggestions %}
+                <li>{{ s }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <span class="badge-soft">Profile looks strong</span>
+        {% endif %}
+    </div>
+
+    <!-- TARGETS -->
+    <div class="card p-3 mt-4">
+        <h5>🎯 Better Approval Targets</h5>
+        <p><b>Credit Score:</b> {{ result.min_credit_for_better_chance }}</p>
+        <p><b>Income:</b> {{ result.min_income_for_better_chance }}</p>
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-info">
+        Submit the form to see your loan approval analysis.
+    </div>
+
+    {% endif %}
+
+</div>
+</body>
+</html>

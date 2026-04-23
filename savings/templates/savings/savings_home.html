@@ -1,0 +1,13 @@
+{% extends "savings/base_savings.html" %}
+{% block content %}
+
+<h2>💰 Savings Allocation Planner</h2>
+<p>Enter your current savings and number of goals to see if you can achieve them.</p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn">Next</button>
+</form>
+
+{% endblock %}

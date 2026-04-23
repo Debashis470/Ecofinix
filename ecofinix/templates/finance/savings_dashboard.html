@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>💰 Smart Savings Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {font-family: Arial; background:#f5f7fb; padding:30px;}
+.card {
+    background:white; padding:25px; border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+}
+.big-number {font-size:26px; font-weight:bold;}
+input, select {padding:8px; margin:5px 0; width:200px;}
+button {background:#4CAF50;color:white;padding:10px 18px;border:none;border-radius:6px;}
+.result-grid {display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h2>💰 Smart Savings Analyzer</h2>
+
+<form method="post">
+{% csrf_token %}
+
+Month:
+<select name="month" required>
+<option value="Jan">January</option>
+<option value="Feb">February</option>
+<option value="Mar">March</option>
+<option value="Apr">April</option>
+<option value="May">May</option>
+<option value="Jun">June</option>
+<option value="Jul">July</option>
+<option value="Aug">August</option>
+<option value="Sep">September</option>
+<option value="Oct">October</option>
+<option value="Nov">November</option>
+<option value="Dec">December</option>
+</select><br>
+
+Income:
+<input type="number" name="income" step="0.01" required><br>
+
+Expenses:
+<input type="number" name="expenses" step="0.01" required><br>
+
+<button type="submit">Analyze Savings</button>
+</form>
+</div>
+
+{% if result %}
+
+<div class="card result-grid">
+<div><h3>Monthly Income</h3><div class="big-number">₹ {{ result.income }}</div></div>
+<div><h3>Monthly Expenses</h3><div class="big-number">₹ {{ result.expenses }}</div></div>
+<div><h3>Monthly Savings</h3><div class="big-number">₹ {{ result.monthly_savings }}</div></div>
+<div><h3>Yearly Savings</h3><div class="big-number">₹ {{ result.yearly_savings }}</div></div>
+</div>
+
+<div class="card">
+<h3>📊 Income vs Expenses vs Savings</h3>
+<canvas id="savingsChart"></canvas>
+</div>
+
+<script>
+new Chart(document.getElementById('savingsChart'), {
+type:'bar',
+data:{
+labels: {{ months|safe }},
+datasets:[
+{label:'Income', data: {{ incomes|safe }}},
+{label:'Expenses', data: {{ expenses|safe }}},
+{label:'Savings', data: {{ savings|safe }}}
+]
+}
+});
+</script>
+
+{% endif %}
+
+</body>
+</html>

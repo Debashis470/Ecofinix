@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoFinix Investment</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f1f5f9;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 15px 40px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1e293b;
+        }
+
+        .btn-primary {
+            padding: 12px 18px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1.5px solid #cbd5e1;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        .risk-low { color: green; font-weight: bold; }
+        .risk-medium { color: orange; font-weight: bold; }
+        .risk-high { color: red; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    💼 EcoFinix AI Investment Planner
+</div>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+{% extends "savings/base_savings.html" %}
+{% block content %}
+
+<div style="max-width:900px;margin:40px auto;padding:30px;background:#f8fafc;border-radius:12px;">
+
+<h2 style="text-align:center;">💰 Savings Planner</h2>
+
+<!-- STEP 1 -->
+{% if step == 1 %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div style="margin-bottom:20px;">
+        <label>Total Savings (₹)</label>
+        <input type="number" name="total_savings" required>
+    </div>
+
+    <div style="margin-bottom:20px;">
+        <label>Number of Goals</label>
+        <input type="number" name="num_goals" min="1" required>
+    </div>
+
+    <button type="submit" name="start_planning">
+        Next
+    </button>
+</form>
+
+{% endif %}
+
+<!-- STEP 2 -->
+{% if step == 2 %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+
+    <input type="hidden" name="total_savings" value="{{ total_savings }}">
+    <input type="hidden" name="num_goals" value="{{ num_goals }}">
+
+    <p><strong>Total Savings:</strong> ₹{{ total_savings }}</p>
+
+    {% for form in formset %}
+    <div style="border:1px solid #ddd;padding:15px;margin-bottom:15px;border-radius:8px;">
+        <h3>Goal {{ forloop.counter }}</h3>
+
+        {% for field in form %}
+        <div style="margin-bottom:10px;">
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <button type="submit" name="analyze_goals">
+        Analyze Goals
+    </button>
+</form>
+
+{% endif %}
+
+<!-- RESULTS -->
+{% if results %}
+<div style="margin-top:30px;padding:20px;background:#dcfce7;border-radius:10px;">
+    <h3>📊 Results</h3>
+
+    {% for goal in results %}
+    <p>
+        🎯 {{ goal.goal_name }} →
+        Remaining: ₹{{ goal.remaining_amount }},
+        Monthly: ₹{{ goal.monthly_saving }},
+        Weekly: ₹{{ goal.weekly_saving }}
+    </p>
+    {% endfor %}
+
+    <p><strong>Total Monthly Needed:</strong> ₹{{ total_monthly }}</p>
+    <p><strong>Total Weekly Needed:</strong> ₹{{ total_weekly }}</p>
+
+    {% if can_achieve %}
+        <p style="color:green;font-weight:bold;">✅ Savings are sufficient!</p>
+    {% else %}
+        <p style="color:red;font-weight:bold;">⚠ Savings are NOT sufficient!</p>
+    {% endif %}
+</div>
+{% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+
+{% block content %}
+
+<style>
+.dashboard-box {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+input[type="number"], input[type="text"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+input[type="number"]:focus, input[type="text"]:focus, select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.tax-btn {
+    width: 100%;
+    padding: 14px;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.tax-btn:hover { background-color: #1d4ed8; }
+
+.goal-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+.result-box {
+    margin-top: 25px;
+    padding: 18px;
+    background: #dcfce7;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.sub-note {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+</style>
+
+<div class="dashboard-box">
+  <h2>💰 EcoFinix Savings Analyzer</h2>
+  <div class="sub-note">
+    Enter your total savings and number of financial goals to see if you can achieve them.
+  </div>
+
+  <!-- Step 1: Total Savings and Number of Goals -->
+  <form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+
+    <div class="form-group">
+        <label>Your Current Total Savings (₹)</label>
+        <input type="number" name="total_savings" value="{{ total_savings }}" required>
+    </div>
+
+    {% for form in formset %}
+    <div style="margin-bottom:20px; padding:15px; border:1px solid #cbd5e1; border-radius:10px;">
+        <h3>Goal {{ forloop.counter }}</h3>
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div style="color:red;">{{ field.errors|striptags }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <button type="submit">Analyze Goals</button>
+</form>
+
+  
+
+  {% if results %}
+  <div class="result-box">
+    <h3>📊 Analysis Results</h3>
+    {% for goal in results %}
+      <p>🎯 {{ goal.goal_name }} → Remaining: ₹{{ goal.remaining_amount|floatformat:2 }}, Monthly: ₹{{ goal.monthly_saving|floatformat:2 }}, Weekly: ₹{{ goal.weekly_saving|floatformat:2 }}</p>
+    {% endfor %}
+    <p><strong>Total Monthly Savings Needed:</strong> ₹{{ total_monthly|floatformat:2 }}</p>
+    <p><strong>Total Weekly Savings Needed:</strong> ₹{{ total_weekly|floatformat:2 }}</p>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

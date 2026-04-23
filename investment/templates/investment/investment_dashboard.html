@@ -1,0 +1,73 @@
+{% extends "investment/base_investment.html" %}
+
+{% block content %}
+
+<!-- USER PROFILE FORM -->
+<div class="card">
+    <h3>📋 Investment Profile</h3>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Age</label>
+        {{ form.age }}
+
+        <label>Monthly Income (₹)</label>
+        {{ form.monthly_income }}
+
+        <label>Monthly Expenses (₹)</label>
+        {{ form.monthly_expenses }}
+
+        <label>Risk Appetite</label>
+        {{ form.risk_appetite }}
+
+        <label>Investment Duration (Years)</label>
+        {{ form.investment_duration }}
+
+        <button type="submit" class="btn-primary">
+            Generate AI Recommendation
+        </button>
+    </form>
+</div>
+
+{% if result %}
+
+<!-- RISK SCORE -->
+<div class="card">
+    <h3>📊 Risk Assessment</h3>
+    <p>
+        Risk Score: {{ result.risk_score }}/10
+    </p>
+    <p class="
+        {% if result.risk_level == 'Low' %}risk-low
+        {% elif result.risk_level == 'Moderate' %}risk-medium
+        {% else %}risk-high
+        {% endif %}
+    ">
+        Risk Level: {{ result.risk_level }}
+    </p>
+</div>
+
+<!-- PORTFOLIO ALLOCATION -->
+<div class="card">
+    <h3>📈 Recommended Portfolio Allocation</h3>
+    <p>Stocks: {{ result.stocks }}%</p>
+    <p>Gold: {{ result.gold }}%</p>
+    <p>Fixed Income: {{ result.fixed_income }}%</p>
+</div>
+
+<!-- STOCK ANALYSIS -->
+<div class="card">
+    <h3>📈 Stock Investment Strategy</h3>
+    <p>{{ result.stock_strategy }}</p>
+</div>
+
+<!-- GOLD ANALYSIS -->
+<div class="card">
+    <h3>🪙 Gold Investment Strategy</h3>
+    <p>{{ result.gold_strategy }}</p>
+</div>
+
+{% endif %}
+
+{% endblock %}

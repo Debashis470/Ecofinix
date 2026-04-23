@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EMI Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6fb;
+            padding: 40px;
+        }
+
+        .box {
+            max-width: 420px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #1e2a78;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eef1ff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>EMI Calculator</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="number" name="amount" placeholder="Loan Amount" required>
+        <input type="number" name="rate" placeholder="Interest Rate (%)" required>
+        <input type="number" name="years" placeholder="Tenure (Years)" required>
+
+        <button type="submit">Calculate EMI</button>
+    </form>
+
+    {% if emi %}
+    <div class="result">
+        <b>Monthly EMI:</b> ₹ {{ emi }} <br>
+        <b>Total Interest:</b> ₹ {{ interest }} <br>
+        <b>Total Payment:</b> ₹ {{ total }}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

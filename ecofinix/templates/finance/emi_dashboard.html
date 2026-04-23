@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EMI Calculator</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="p-4 bg-light">
+
+<div class="container">
+
+<h2>💳 Smart EMI Calculator</h2>
+
+<div class="card p-4 mb-4">
+<form method="post">
+{% csrf_token %}
+
+<input name="item" placeholder="Item Name" class="form-control mb-2" required>
+<input name="price" placeholder="Price" class="form-control mb-2" required>
+<input name="down" placeholder="Down Payment" class="form-control mb-2" required>
+<input name="rate" placeholder="Interest Rate %" class="form-control mb-2" required>
+
+<input name="tenure" placeholder="Tenure" class="form-control mb-2" required>
+
+<select name="unit" class="form-control mb-3">
+<option value="months">Months</option>
+<option value="years">Years</option>
+</select>
+
+<button class="btn btn-primary">Calculate EMI</button>
+
+</form>
+</div>
+
+{% if result %}
+
+<div class="card p-4">
+
+<h4>📦 {{ result.item }} Loan Summary</h4>
+
+<table class="table">
+<tr><td>Price</td><td>₹ {{ result.price }}</td></tr>
+<tr><td>Down Payment</td><td>₹ {{ result.down }}</td></tr>
+<tr><td>Loan Amount</td><td>₹ {{ result.loan }}</td></tr>
+<tr><td>Tenure</td><td>{{ result.months }} months</td></tr>
+<tr><td>Interest Rate</td><td>{{ result.rate }}%</td></tr>
+<tr class="table-success"><td><b>Monthly EMI</b></td><td><b>₹ {{ result.emi }}</b></td></tr>
+<tr><td>Total Payment</td><td>₹ {{ result.total }}</td></tr>
+<tr><td>Total Interest</td><td>₹ {{ result.interest }}</td></tr>
+</table>
+
+</div>
+
+{% endif %}
+
+</div>
+
+<canvas id="emiChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+new Chart(document.getElementById('emiChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: 'Monthly EMI',
+            data: {{ values|safe }}
+        }]
+    }
+});
+
+</script>
+</body>
+</html>
