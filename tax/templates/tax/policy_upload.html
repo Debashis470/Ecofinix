@@ -1,0 +1,50 @@
+{% extends "tax/base_tax.html" %}
+{% block content %}
+
+<style>
+.upload-box {
+  max-width: 650px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.upload-box h2 {
+  margin-bottom: 20px;
+}
+
+.upload-box input,
+.upload-box textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+.btn-upload {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #16a34a;
+  color: white;
+  font-weight: 700;
+}
+</style>
+
+<div class="upload-box">
+
+<h2>📄 Upload Tax Policy Document</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn-upload">Upload Document</button>
+</form>
+
+</div>
+
+{% endblock %}

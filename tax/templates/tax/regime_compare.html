@@ -1,0 +1,188 @@
+{% extends "tax/base_tax.html" %}
+{% block content %}
+
+<style>
+.compare-box {
+  max-width: 760px;
+  margin: auto;
+  background: white;
+  padding: 34px;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  font-family: Segoe UI, sans-serif;
+}
+
+.compare-box h2 {
+  margin-bottom: 6px;
+  font-size: 24px;
+}
+
+.sub-note {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+/* ---------- FORM ---------- */
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+.help {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* ---------- BUTTON ---------- */
+
+.tax-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg,#2563eb,#1d4ed8);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tax-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* ---------- RESULT CARDS ---------- */
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 28px;
+}
+
+.card {
+  padding: 22px;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.winner {
+  background: #dcfce7;
+  border: 2px solid #22c55e;
+}
+
+.big {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 10px 0;
+}
+
+.result-box {
+  margin-top: 22px;
+  padding: 18px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  font-size: 16px;
+}
+</style>
+
+<div class="compare-box">
+
+  <h2>⚖ Regime Comparison Tool</h2>
+  <div class="sub-note">
+    Enter your details and see which tax system gives you lower tax
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Your Total Yearly Income (Before Tax)</label>
+      {{ form.income }}
+      <div class="help">
+        Example: Your full annual salary before deductions
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Tax Saving Investments (LIC, PF, Mutual Funds etc.)</label>
+      {{ form.investments }}
+      <div class="help">
+        Include LIC, PPF, ELSS, EPF, tax-saving mutual funds
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>House Rent Benefit (Only if you get HRA in salary)</label>
+      {{ form.hra }}
+      <div class="help">
+        Enter HRA exemption amount — not full rent paid
+      </div>
+    </div>
+
+    <button class="tax-btn">Compare Tax Systems</button>
+  </form>
+
+  {% if result and result.old %}
+  <hr style="margin:25px 0;">
+
+  <div class="compare-grid">
+
+    <div class="card {% if result.better == 'Old Regime' %}winner{% endif %}">
+      <h3>🏛 Old Regime</h3>
+      <div class="big">₹ {{ result.old.total }}</div>
+      <p>Taxable Income: ₹ {{ result.old.taxable }}</p>
+      <p style="font-size:13px;color:#64748b;">
+        Uses investment & HRA benefits
+      </p>
+    </div>
+
+    <div class="card {% if result.better == 'New Regime' %}winner{% endif %}">
+      <h3>🆕 New Regime</h3>
+      <div class="big">₹ {{ result.new.total }}</div>
+      <p>Taxable Income: ₹ {{ result.new.taxable }}</p>
+      <p style="font-size:13px;color:#64748b;">
+        Lower rates, no deductions
+      </p>
+    </div>
+
+  </div>
+
+  <div class="result-box">
+    ✅ Better Choice: <strong>{{ result.better }}</strong><br>
+    💰 You Save: <strong>₹ {{ result.savings }}</strong><br>
+    <span style="font-size:13px;color:#64748b;">
+      Choose the regime with lower total tax payable
+    </span>
+  </div>
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

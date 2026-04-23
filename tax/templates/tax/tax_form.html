@@ -1,0 +1,117 @@
+{% extends "tax/base_tax.html" %}
+{% block content %}
+
+<style>
+  .tax-form-container {
+    max-width: 600px;
+    background: #fff;
+    padding: 30px 40px;
+    margin: 0 auto 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .tax-form-container h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #1e293b;
+    font-weight: 700;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #334155;
+  }
+
+  input[type="number"], select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.8px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="number"]:focus, select:focus {
+    border-color: #2563eb;
+    outline: none;
+  }
+
+  .help-text {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+
+  .tax-btn {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .tax-btn:hover {
+    background-color: #1d4ed8;
+  }
+  .error-text {
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 4px;
+   }
+</style>
+
+<div class="tax-form-container">
+  <h2>Calculate Your Income Tax</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <div class="form-group">
+  <label>{{ form.annual_income.label }}</label>
+  {{ form.annual_income }}
+  <div class="help-text">{{ form.annual_income.help_text }}</div>
+
+  {% if form.annual_income.errors %}
+    <div class="error-text">{{ form.annual_income.errors }}</div>
+  {% endif %}
+  </div>
+
+    <div class="form-group">
+      <label for="{{ form.regime.id_for_label }}">{{ form.regime.label }}</label>
+      {{ form.regime }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.investment_deductions.id_for_label }}">{{ form.investment_deductions.label }}</label>
+      {{ form.investment_deductions }}
+      <div class="help-text">{{ form.investment_deductions.help_text }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.hra.id_for_label }}">{{ form.hra.label }}</label>
+      {{ form.hra }}
+      <div class="help-text">{{ form.hra.help_text }}</div>
+    </div>
+
+    <button type="submit" class="tax-btn">Calculate My Tax</button>
+  </form>
+</div>
+
+{% if result %}
+  {% include "tax/result_table.html" %}
+{% endif %}
+
+{% endblock %}

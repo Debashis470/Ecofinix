@@ -1,0 +1,122 @@
+body {
+  font-family: system-ui, Arial;
+  background: #f4f7fb;
+  margin: 0;
+}
+
+/* Topbar */
+
+.tax-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f172a;
+  padding: 16px 28px;
+}
+
+.tax-brand {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.tax-links a {
+  color: #cbd5f1;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+.tax-links a:hover {
+  color: white;
+}
+
+/* Layout */
+
+.tax-wrapper {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.page-title {
+  margin-bottom: 28px;
+  font-size: 28px;
+}
+
+/* Cards */
+
+.tax-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  margin-bottom: 24px;
+}
+
+.tax-card.action {
+  cursor: pointer;
+  transition: .2s;
+}
+
+.tax-card.action:hover {
+  transform: translateY(-4px);
+}
+
+/* Grid */
+
+.tax-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 20px;
+}
+
+/* Form */
+
+.tax-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.tax-form-grid input,
+.tax-form-grid select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+/* Button */
+
+.tax-btn {
+  grid-column: span 2;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Result */
+
+.tax-result-card {
+  background: #0f172a;
+  color: white;
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.result-grid .total {
+  grid-column: span 2;
+  font-size: 20px;
+  border-top: 1px solid #334155;
+  padding-top: 10px;
+}
