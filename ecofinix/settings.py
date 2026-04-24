@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Basic settings
 # -----------------------------
 SECRET_KEY = 'django-insecure-%(rn*n97bipd7fqn1kvb6mm&9_ym(5lt$luu#!p%!v*od4(&s0'
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = [
     'ecofinix.onrender.com',
     'localhost',
@@ -123,6 +123,12 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 # -----------------------------
 # Default primary key field
 # -----------------------------
