@@ -20,7 +20,8 @@ SECRET_KEY = os.getenv(
     "django-insecure-dev-key-change-in-production"
 )
 
-DEBUG = True
+# Production-safe debug setting
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     "ecofinix.onrender.com",
@@ -77,10 +78,6 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "templates",
-            BASE_DIR / "finance" / "templates",
-            BASE_DIR / "tax" / "templates",
-            BASE_DIR / "savings" / "templates",
-            BASE_DIR / "investment" / "templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -153,7 +150,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
