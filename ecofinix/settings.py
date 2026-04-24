@@ -20,7 +20,7 @@ SECRET_KEY = os.getenv(
     "django-insecure-dev-key-change-in-production"
 )
 
-\DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "ecofinix.onrender.com",
