@@ -9,9 +9,9 @@ from pathlib import Path
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# -----------------------------
-# Basic settings
-# -----------------------------
+# --------------------------------------------------
+# Basic Settings
+# --------------------------------------------------
 SECRET_KEY = 'django-insecure-%(rn*n97bipd7fqn1kvb6mm&9_ym(5lt$luu#!p%!v*od4(&s0'
 
 DEBUG = False
@@ -22,9 +22,9 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-# -----------------------------
-# Installed apps
-# -----------------------------
+# --------------------------------------------------
+# Installed Apps
+# --------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,13 +39,11 @@ INSTALLED_APPS = [
     'investment',
 ]
 
-# -----------------------------
+# --------------------------------------------------
 # Middleware
-# -----------------------------
+# --------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
-    # WhiteNoise
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,14 +54,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# -----------------------------
-# URLs
-# -----------------------------
+# --------------------------------------------------
+# URL Configuration
+# --------------------------------------------------
 ROOT_URLCONF = 'ecofinix.urls'
 
-# -----------------------------
+# --------------------------------------------------
 # Templates
-# -----------------------------
+# --------------------------------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -77,23 +75,23 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.debug',
             ],
         },
     },
 ]
 
-# -----------------------------
+# --------------------------------------------------
 # WSGI
-# -----------------------------
+# --------------------------------------------------
 WSGI_APPLICATION = 'ecofinix.wsgi.application'
 
-# -----------------------------
+# --------------------------------------------------
 # Database
-# -----------------------------
+# --------------------------------------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -101,9 +99,9 @@ DATABASES = {
     }
 }
 
-# -----------------------------
-# Password validation
-# -----------------------------
+# --------------------------------------------------
+# Password Validation
+# --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -119,34 +117,36 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# -----------------------------
+# --------------------------------------------------
 # Internationalization
-# -----------------------------
+# --------------------------------------------------
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+
 USE_TZ = True
 
-# -----------------------------
-# Static Files
-# -----------------------------
+# --------------------------------------------------
+# Static Files (Render + WhiteNoise)
+# --------------------------------------------------
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "ecofinix" / "static",
+    BASE_DIR / 'ecofinix' / 'static',
 ]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise storage
-STATICFILES_STORAGE = (
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
-)
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
-# -----------------------------
-# Default primary key field
-# -----------------------------
+# --------------------------------------------------
+# Default Primary Key Field
+# --------------------------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ```
