@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --------------------------------------------------
 SECRET_KEY = 'django-insecure-%(rn*n97bipd7fqn1kvb6mm&9_ym(5lt$luu#!p%!v*od4(&s0'
 
-DEBUG = False
+DEBUG = True 
 
 ALLOWED_HOSTS = [
     "ecofinix.onrender.com",
