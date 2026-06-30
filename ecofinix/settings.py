@@ -145,8 +145,3 @@ STORAGES = {
     },
 }
 
-# --------------------------------------------------
-# Default Primary Key Field
-# --------------------------------------------------
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-```
